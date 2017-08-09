@@ -11,196 +11,226 @@
 <dom-module id="t-image-corousel">
 	<template>
 		<style>
-:host {
-	display: block;
-	font-family: 'Roboto';
-	position: relative;
-	height: 100%;
-	width: 100%;
-}
-#previewSlider{
-	overflow: hidden;
-	padding: 10px 0;
-}
-	.grid {
-		display: -ms-flexbox;
-		-ms-flex-wrap: wrap;
-		-ms-flex-direction: column;
-		-webkit-flex-flow: row wrap;
-		flex-flow: row wrap;
-		display: -webkit-box;
-		display: flex;
-	}
-
-	[hidden]{
-		display: none!important;
-	}
-
-	.grid{
-		width: 100%;
-		height: 100%;
-	}
-	.grid div {
-		-webkit-box-flex: auto;
-		-ms-flex: auto;
-		flex: auto;
-		width: calc(33% - 6px);
-		height: 50%;
-		margin: 2px;
-	}
-	.grid div img {
-		width: 100%;
-		height: 100%;
-	}
-
-	@media screen and (max-width: 1024px) {
-		.grid > div {
-			width: 300px;
-		}
-	}
-
-	@media screen and (max-width: 400px) {
-		.grid > div { margin: 0;  }
-		.grid { padding: 0;  }
-	}
-
-	.slic-next{
-		width: 40px;
-		height: 40px;
-		position: absolute;
-		right: 50px;
-		top: 50%;
-		color: white;
-	}
-
-	/*.slick-slide{*/
-	/*opacity: 0.3;*/
-	/*vertical-align: middle;*/
-	/*}*/
-	/*.slick-current{*/
-	/*opacity: 1;*/
-	/*}*/
-	/*.slick-slide {*/
-	/*text-align: center;*/
-	/*}*/
-
-	/*.slick-slide::before {*/
-	/*content: '';*/
-	/*display: inline-block;*/
-	/*height: 100%;*/
-	/*vertical-align: middle;*/
-	/*}*/
-
-	/*.slick-slide {*/
-	/*vertical-align: middle;*/
-	/*display: inline-block;*/
-	/*}*/
-
-	.slic-prev{
-		width: 40px;
-		height: 40px;
-		position: absolute;
-		left: 50px;
-		top: 50%;
-		z-index: 1200;
-		color: white;
-	}
-
-	.slider-header{
-		height: 120px;
-		padding: 20px 16px;
-		position: relative;
-	}
-
-	.slider-header h1{
-		font-size: 18px;
-		font-weight: 600;
-	}
-
-	.action-bar{
-		position: relative;
-		text-align: center;
-	}
-
-	.action-bar h1{
-		margin: 0;
-		display: inline-block;
-	}
-
-	.slider-header paper-button{
-		background-color:#1976d3;
-	}
-
-	.close{
-		position: absolute;
-		right: 0;
-	}
-
-	.lightbox {
-		position: fixed;
-		color: #e5e6ea;
-		max-width: 1200px;
-		max-height: 1000px;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(66,77,81, 0.8);
-		margin: 0 auto;
-		transform: translateX(-50%);
-		left: 50%;
-	}
-
-	.lightbox .lb-images {
-		display: block;
-		position: relative;
-		height: calc(100% - 250px);
-		max-height: calc(100% - 250px);
-	}
-
-	#carousel{
-		height: 100%;
-		width: calc(100% - 198px);
-		margin: 0 auto;
-		overflow: hidden;
-	}
-
-	#carousel img{
-		margin: 0 6px;
-	}
-
-	#previewSlider img {
-		width: 75px !important;
-		height: 75px !important;
-		margin: 0 6px;
-	}
-
-	.pagination-bar{
-		position: absolute;
-		bottom: 16px;
-		left: 99px;
-	}
-	@media (max-width: 1024px) and (min-width: 768px){
-	}
-
-	@media (min-width : 320px) and (max-width : 767px) {
-		#carousel{
+		:host {
+			display: block;
+			font-family: 'Roboto';
+			position: relative;
+			height: 100%;
 			width: 100%;
 		}
-		.action-bar h1{
-			margin: 5px;
+		#previewSlider .slick-current{
+			border: solid 2px blue;
+		}
+		.overlay{
+			z-index:999;
+			background: transparent;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+		}
+		#previewSlider{
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			overflow: hidden;
+			padding: 10px 0;
+		}
+		.grid {
+			display: -ms-flexbox;
+			-ms-flex-wrap: wrap;
+			-ms-flex-direction: column;
+			-webkit-flex-flow: row wrap;
+			flex-flow: row wrap;
+			display: -webkit-box;
+			display: flex;
 		}
 
-		.pagination-bar{
-			left: 10px;
-			bottom: 10px;
+		[hidden]{
+			display: none!important;
+		}
+
+		.grid{
+			width: 100%;
+			height: 100%;
+		}
+		.grid div {
+			-webkit-box-flex: auto;
+			-ms-flex: auto;
+			flex: auto;
+			width: calc(33% - 6px);
+			height: 50%;
+			margin: 2px;
+		}
+		.grid div img {
+			width: 100%;
+			height: 100%;
+		}
+
+		@media screen and (max-width: 1024px) {
+			.grid > div {
+				width: 240px;
+			}
+		}
+
+		@media screen and (max-width: 400px) {
+			.grid > div { margin: 0; height: 100%;  }
+			.grid { padding: 0;  }
 		}
 
 		.slic-next{
-			right: 20px;
+			width: 40px;
+			height: 40px;
+			position: absolute;
+			right: 50px;
+			top: 50%;
+			color: white;
 		}
+
+		/*.slick-slide{*/
+		/*opacity: 0.3;*/
+		/*vertical-align: middle;*/
+		/*}*/
+		/*.slick-current{*/
+		/*opacity: 1;*/
+		/*}*/
+		/*.slick-slide {*/
+		/*text-align: center;*/
+		/*}*/
+
+		/*.slick-slide::before {*/
+		/*content: '';*/
+		/*display: inline-block;*/
+		/*height: 100%;*/
+		/*vertical-align: middle;*/
+		/*}*/
+
+		/*.slick-slide {*/
+		/*vertical-align: middle;*/
+		/*display: inline-block;*/
+		/*}*/
+
 		.slic-prev{
-			left: 20px;
+			width: 40px;
+			height: 40px;
+			position: absolute;
+			left: 50px;
+			top: 50%;
+			z-index: 1200;
+			color: white;
 		}
-	}
+
+		.slider-header{
+			height: 60px;
+			padding: 20px 16px;
+			position: relative;
+		}
+
+		.slider-header h1{
+			font-size: 18px;
+			font-weight: 600;
+		}
+
+		.action-bar{
+			position: relative;
+			text-align: center;
+		}
+
+		.action-bar h1{
+			margin: 0;
+			display: inline-block;
+		}
+
+		.slider-header paper-button{
+			background-color:#1976d3;
+		}
+
+		.close{
+			position: absolute;
+			z-index: 1000;
+			right: 0;
+		}
+
+		.lightbox {
+			position: fixed;
+			color: #e5e6ea;
+			max-width: 1200px;
+			max-height: 1000px;
+			width: 100%;
+			top: 20px;
+			height: calc(100% - 40px);
+			max-: calc(100% - 40px);
+			background-color: rgba(66,77,81, 0.8);
+			margin: 0 auto;
+			transform: translateX(-50%);
+			left: 50%;
+			z-index: 1000;
+		}
+
+		.lightbox .lb-images {
+			display: block;
+			position: relative;
+			height: calc(100% - 250px);
+			max-height: calc(100% - 250px);
+		}
+
+		.lightbox #carousel{
+			height: 100%;
+			width: calc(100% - 198px);
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		.lightbox #carousel img{
+			margin: 0 6px;
+		}
+
+		#previewSlider img {
+			width: 75px !important;
+			height: 75px !important;
+			margin: 0 6px;
+		}
+
+		.pagination-bar{
+			position: absolute;
+			bottom: 16px;
+			left: 99px;
+		}
+		@media (max-width: 1024px) and (min-width: 768px){
+		}
+
+		@media (min-width : 320px) and (max-width : 767px) {
+			.lightbox #carousel{
+				width: 100%;
+				height: calc(100% -60px);
+			}
+			.action-bar h1{
+				margin: 5px;
+			}
+
+			.lightbox .lb-images{
+				height: calc(100% - 140px);
+				max-height: calc(100% - 140px);
+			}
+
+			.lightbox{
+				height:100%;
+				top:0;
+			}
+			.pagination-bar{
+				left: 10px;
+				bottom: 10px;
+			}
+
+			.slic-next{
+				right: 20px;
+			}
+			.slider-header{
+				height: 80px;
+			}
+			.slic-prev{
+				left: 20px;
+			}
+		}
 
 		</style>
 
@@ -209,43 +239,49 @@
 
 
 		<template is="dom-if" if="[[_isInGridMode]]">
-			<template is="dom-if" if="[[_isDesktop(_isMobile, _isTablet)]]">
-				<div class="grid" >
+			<div class="grid" >
+				<template is="dom-if" if="[[_isDesktop(_isMobile, _isTablet)]]">
 					<template is="dom-repeat" items="[[images]]" filter="_isInFirstFive" >
 						<div><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
 					</template>
-				</div>
-			</template>
+				</template>
 
-			<template is="dom-if" if="[[_isTablet]]" filter="_isInFirstFour" >
-				<div class="grid" >
+				<template is="dom-if" if="[[_isTablet]]" filter="_isInFirstFour" >
 					<template is="dom-repeat" items="[[images]]" filter="_isInFirstFour" >
 						<div><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
 					</template>
-				</div>
-			</template>
+				</template>
+
+				<template is="dom-if" if="[[_isMobile]]" >
+					<div><img on-click="_gotoSlide" data-index="0" src="[[images.0.url]]" alt></div>
+				</template>
+			</div>
 		</template>
 
-		<div class="lightbox" hidden$="[[_isInGridMode ]]">
-			<paper-icon-button class="close" icon="close" ></paper-icon-button>
-			<div class="slider-header">
-				<div class="action-bar">
-					<h1>Mandarin Hotel, Las Vegas </h1>
-					<paper-button raised class="indigo" > Reserve Now</paper-button>
-				</div>
-				<div class="pagination-bar"> 26/39 </div>
+		<div class="overlay" on-tap="_closeSlider">
+			<div class="lightbox" hidden$="[[_isInGridMode ]]">
+				<paper-icon-button class="close" on-tap="_closeSlider" icon="close" ></paper-icon-button>
+				<div class="slider-header">
+					<div class="action-bar">
+						<h1>Mandarin Hotel, Las Vegas </h1>
+						<paper-button raised class="indigo" > Reserve Now</paper-button>
+					</div>
+					<div class="pagination-bar">[[_paging]]</div>
 
-			</div>
-			<div class="lb-images">
-				<div id="carousel" class="lb-slides">
-					<template is="dom-repeat" items="[[images]]" >
-						<img data-index$="[[index]]" src="[[item.url]]">
-					</template>
 				</div>
-			</div>
-			<div id="previewSlider" >
-				<template is="dom-repeat" items="[[images]]" >
-					<img data-index$="[[index]]" width="100" height="100" src="[[item.url]]">
+				<div class="lb-images">
+					<div id="carousel" class="lb-slides">
+						<template is="dom-repeat" items="[[images]]" >
+							<img data-index$="[[index]]" data-lazy$="[[item.url]]" src="[[item.url]]" />
+						</template>
+					</div>
+				</div>
+				<template is="dom-if" if="[[!_isMobile]]">
+					<div id="previewSlider" >
+						<template is="dom-repeat" items="[[images]]" >
+							<img on-tap="_gotoSlide" data-index$="[[index]]" src="[[item.url]]">
+						</template>
+					</div>
 				</template>
 			</div>
 		</div>
@@ -253,14 +289,14 @@
 	</template>
 
 	<script>
-/**
-* `t-image-corousel`
- *
- *
- * @customElement
- * @polymer
- * @demo demo/index.html
- */
+	/**
+	* `t-image-corousel`
+	*
+	*
+	* @customElement
+	* @polymer
+	* @demo demo/index.html
+	*/
 	class TImageCorousel extends Polymer.Element {
 		static get is() { return 't-image-corousel'; }
 
@@ -274,19 +310,22 @@
 					type: Array,
 					value:  function(){
 						return [
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/2400x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/600x600", "category" : "room" },
-						{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/400x600", "category" : "room" }
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/2400x1600&sig=123", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=17", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=26", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=25", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=24", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=23", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=22", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=21", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=20", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600&sig=99", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/600x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/400x600", "category" : "room" }
 						];
 					}
 				},
@@ -295,8 +334,31 @@
 					value: function(){
 						return {
 							centerMode: true,
+							focusOnSelect:true,
+							slidesToScroll:5,
+							slidesToShow: 13,
 							arrows: false,
-							slidesToShow: 10
+							mobileFirst: true,
+							responsive:[
+								{
+									breakpoint: 1025,
+									settings: {
+										slidesToShow: 13,
+									}
+								},
+								{
+									breakpoint: 767,
+									settings: {
+										slidesToShow: 6
+									}
+								},
+								{
+									breakpoint: 480,
+									settings: {
+										slidesToShow: 1
+									}
+								}
+							]
 						};
 					}
 				},
@@ -305,9 +367,11 @@
 					value: function() {
 						return {
 							slidesToShow: 3,
+							lazyLoad: 'ondemand',
 							infinite: true,
 							slickGoTo: 0,
 							slidesToScroll: 1,
+							slidesToScroll: 5,
 							variableWidth: true,
 							focusOnSelect: false,
 							nextArrow:'<paper-icon-button icon="arrow-forward" class="slic-next" ></paper-icon-button>',
@@ -316,24 +380,24 @@
 							centerMode: true,
 							arrows: true,
 							responsive: [
-							{
-								breakpoint: 1024,
-								settings: {
-									slidesToShow: 3,
+								{
+									breakpoint: 1024,
+									settings: {
+										slidesToShow: 3,
+									}
+								},
+								{
+									breakpoint: 767,
+									settings: {
+										slidesToShow: 2
+									}
+								},
+								{
+									breakpoint: 480,
+									settings: {
+										slidesToShow: 1
+									}
 								}
-							},
-							{
-								breakpoint: 600,
-								settings: {
-									slidesToShow: 2
-								}
-							},
-							{
-								breakpoint: 480,
-								settings: {
-									slidesToShow: 1
-								}
-							}
 							]
 						};
 					}
@@ -352,6 +416,8 @@
 			var el = this.$.carousel;
 			this._isInGridMode = false;
 			jQuery(el).slick('slickGoTo', index);
+			if(!this._isMobile)
+			jQuery(this.$.previewSlider).slick('slickGoTo', index);
 		}
 
 		ready(){
@@ -360,6 +426,13 @@
 			setTimeout(function(){
 				var mainSlider = slider.$.carousel;
 				jQuery(mainSlider).slick(slider.slickDefaults);
+				jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+					slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+					if(!this._isMobile)
+					jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+				});
+
+				if(!this._isMobile)
 				jQuery(slider.$.previewSlider).slick(slider.previewDefaults);
 			}, 0);
 		}
@@ -370,14 +443,20 @@
 
 		_isInFirstFive(item){
 			return this.images.indexOf(item) <= 4;
-																																}
+		}
 
-																																_isInFirstFour(item){
-																																return this.images.indexOf(item) <= 3;
-																																}
+		_isInFirstFour(item){
+			return this.images.indexOf(item) <= 3;
+		}
 
-																																}
+		_closeSlider(	e){
+			if(e.target.classList.value === 'overlay' || e.target.classList.value === 'close')
+			this._isInGridMode = true;
+		}
 
-																																customElements.define(TImageCorousel.is, TImageCorousel);
+	}
+
+	customElements.define(TImageCorousel.is, TImageCorousel);
 	</script>
 </dom-module>
+
