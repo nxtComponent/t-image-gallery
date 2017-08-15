@@ -21,19 +21,23 @@
 		#previewSlider .slick-current{
 			border: solid 2px blue;
 		}
-		.overlay{
-			z-index:999;
-			background: transparent;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-		}
+
 		#previewSlider{
 			width: 100%;
 			position: absolute;
 			bottom: 0;
 			overflow: hidden;
 			padding: 10px 0;
+
+			@apply --layout-horizontal;
+			@apply --layout-wrap;
+			@apply --layout-center-justified;
+		}
+
+		#previewSlider img {
+			height: 60px !important;
+			width: 60px !important;
+			margin: 3px;
 		}
 		.grid {
 			display: -ms-flexbox;
@@ -43,6 +47,10 @@
 			flex-flow: row wrap;
 			display: -webkit-box;
 			display: flex;
+		}
+
+		.c-items img{
+			width: 100%;
 		}
 
 		[hidden]{
@@ -59,7 +67,11 @@
 			flex: auto;
 			width: calc(33% - 6px);
 			height: 50%;
-			margin: 2px;
+			padding: 2px;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			position: relative;
 		}
 		.grid div img {
 			width: 100%;
@@ -68,7 +80,7 @@
 
 		@media screen and (max-width: 1024px) {
 			.grid > div {
-				width: 240px;
+				width: 300px;
 			}
 		}
 
@@ -80,34 +92,12 @@
 		.slic-next{
 			width: 40px;
 			height: 40px;
+			transform: translateY(-50%);
 			position: absolute;
 			right: 50px;
 			top: 50%;
 			color: white;
 		}
-
-		/*.slick-slide{*/
-		/*opacity: 0.3;*/
-		/*vertical-align: middle;*/
-		/*}*/
-		/*.slick-current{*/
-		/*opacity: 1;*/
-		/*}*/
-		/*.slick-slide {*/
-		/*text-align: center;*/
-		/*}*/
-
-		/*.slick-slide::before {*/
-		/*content: '';*/
-		/*display: inline-block;*/
-		/*height: 100%;*/
-		/*vertical-align: middle;*/
-		/*}*/
-
-		/*.slick-slide {*/
-		/*vertical-align: middle;*/
-		/*display: inline-block;*/
-		/*}*/
 
 		.slic-prev{
 			width: 40px;
@@ -115,29 +105,29 @@
 			position: absolute;
 			left: 50px;
 			top: 50%;
-			z-index: 1200;
+			transform: translateY(-50%);
+			z-index: 12;
 			color: white;
 		}
 
 		.slider-header{
 			height: 60px;
-			padding: 20px 16px;
+			padding: 10px 16px;
 			position: relative;
 		}
 
-		.slider-header h1{
+		.slider-header h3{
 			font-size: 18px;
-			font-weight: 600;
+			font-weight: 300;
+			margin: 0;
+			display: inline-block;
 		}
 
 		.action-bar{
 			position: relative;
-			text-align: center;
 		}
 
-		.action-bar h1{
-			margin: 0;
-			display: inline-block;
+		.action-bar h3{
 		}
 
 		.slider-header paper-button{
@@ -146,24 +136,20 @@
 
 		.close{
 			position: absolute;
-			z-index: 1000;
+			z-index: 10;
 			right: 0;
 		}
 
 		.lightbox {
 			position: fixed;
 			color: #e5e6ea;
-			max-width: 1200px;
-			max-height: 1000px;
-			width: 100%;
-			top: 20px;
-			height: calc(100% - 40px);
-			max-: calc(100% - 40px);
-			background-color: rgba(66,77,81, 0.8);
-			margin: 0 auto;
-			transform: translateX(-50%);
-			left: 50%;
-			z-index: 1000;
+			width: 100vw;
+			top: 0;
+			height: 100vh;
+			background-color: rgba(0,0,0, 0.8);
+			/* margin: 0 auto; */
+			z-index: 9;
+			left: 0;
 		}
 
 		.lightbox .lb-images {
@@ -173,40 +159,99 @@
 			max-height: calc(100% - 250px);
 		}
 
-		.lightbox #carousel{
+		#carousel{
 			height: 100%;
 			width: calc(100% - 198px);
 			margin: 0 auto;
 			overflow: hidden;
 		}
 
-		.lightbox #carousel img{
+		.grid span{
+			display: none;
+		}
+		.slick-slide {
+			display: inline-block;
+		}
+		#carousel .slick-slide img{
 			margin: 0 6px;
+			width: auto;
+			height: 70vh;
+			opacity: 0.5em;
+			-webkit-filter: blur(7px) grayscale(100%); /* Safari 6.0 - 9.0 */
+			filter: blur(7px) grayscale(100%);
+		}
+		#carousel .slick-slide.slick-current img{
+			-webkit-filter: none; /* Safari 6.0 - 9.0 */
+			filter: none;
+			opacity: 1;
 		}
 
-		#previewSlider img {
-			width: 75px !important;
-			height: 75px !important;
-			margin: 0 6px;
-		}
+		@media (min-width:576px){
 
-		.pagination-bar{
+			.pagination-bar{
+				position: absolute;
+				bottom: 16px;
+				left: 95px;
+			}
+
+			.slider-header h3{
+				margin: 0 15px;
+			}
+			.action-bar{
+				text-align: center;
+			}
+			.slider-header{
+				padding: 20px 16px;
+			}
+
+		}
+		span.thumbnail-4{
+			display: block;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%);
 			position: absolute;
-			bottom: 16px;
-			left: 99px;
-		}
-		@media (max-width: 1024px) and (min-width: 768px){
+			display: block;
+			color: #fff;
+			font-size: 23px;
+			font-weight: 600;
 		}
 
-		@media (min-width : 320px) and (max-width : 767px) {
+		@media (max-width: 1024px)  {
+			span.thumbnail-3{
+				display: block;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%);
+				position: absolute;
+				display: block;
+				color: #fff;
+				font-size: 23px;
+				font-weight: 600;
+			}
+		}
+		@media (max-width : 575px) {
+			.pagination-bar{
+				margin-top: 10px;
+			}
+			.action-button{
+				position: fixed;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				margin: 0;
+			}
 			.lightbox #carousel{
 				width: 100%;
-				height: calc(100% -60px);
+				height: calc(100% - 60px);
 			}
 			.action-bar h1{
 				margin: 5px;
 			}
 
+			#previewSlider{
+				cursor: pointer;
+			}
 			.lightbox .lb-images{
 				height: calc(100% - 140px);
 				max-height: calc(100% - 140px);
@@ -216,16 +261,9 @@
 				height:100%;
 				top:0;
 			}
-			.pagination-bar{
-				left: 10px;
-				bottom: 10px;
-			}
 
 			.slic-next{
 				right: 20px;
-			}
-			.slider-header{
-				height: 80px;
 			}
 			.slic-prev{
 				left: 20px;
@@ -234,25 +272,25 @@
 
 		</style>
 
-		<iron-media-query query="(min-width : 320px) and (max-width : 767px)" query-matches="{{_isMobile}}"></iron-media-query>
+		<iron-media-query query="(max-width : 575px)" query-matches="{{_isMobile}}"></iron-media-query>
 		<iron-media-query query="(max-width: 1024px) and (min-width: 768px)" query-matches="{{_isTablet}}"></iron-media-query>
 
 
 		<template is="dom-if" if="[[_isInGridMode]]">
 			<div class="grid" >
-				<template is="dom-if" if="[[_isDesktop(_isMobile, _isTablet)]]">
+				<template is="dom-if" if="[[_isNotSingleImageGrid(_isDesktop, isSingleMode )]]">
 					<template is="dom-repeat" items="[[images]]" filter="_isInFirstFive" >
-						<div><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+						<div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 5)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
 					</template>
 				</template>
 
-				<template is="dom-if" if="[[_isTablet]]" filter="_isInFirstFour" >
+				<template is="dom-if" if="[[_isNotSingleImageGrid(_isTablet, isSingleMode )]]" filter="_isInFirstFour" >
 					<template is="dom-repeat" items="[[images]]" filter="_isInFirstFour" >
-						<div><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+						<div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 4)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
 					</template>
 				</template>
 
-				<template is="dom-if" if="[[_isMobile]]" >
+				<template is="dom-if" if="[[_isNotSingleImageGrid(_isMobile, isSingleMode, true )]]" >
 					<div><img on-click="_gotoSlide" data-index="0" src="[[images.0.url]]" alt></div>
 				</template>
 			</div>
@@ -263,8 +301,8 @@
 				<paper-icon-button class="close" on-tap="_closeSlider" icon="close" ></paper-icon-button>
 				<div class="slider-header">
 					<div class="action-bar">
-						<h1>Mandarin Hotel, Las Vegas </h1>
-						<paper-button raised class="indigo" > Reserve Now</paper-button>
+						<h3>Mandarin Hotel, Las Vegas </h3>
+						<paper-button  raised class="indigo action-button" > Reserve Now</paper-button>
 					</div>
 					<div class="pagination-bar">[[_paging]]</div>
 
@@ -272,14 +310,14 @@
 				<div class="lb-images">
 					<div id="carousel" class="lb-slides">
 						<template is="dom-repeat" items="[[images]]" >
-							<img data-index$="[[index]]" data-lazy$="[[item.url]]" src="[[item.url]]" />
+							<div><div class="c-items"><img data-index$="[[index]]"  data-lazy$="[[item.url]]" ></img></div></div>
 						</template>
 					</div>
 				</div>
-				<template is="dom-if" if="[[!_isMobile]]">
+				<template is="dom-if" if="[[_showPreviewThumbnails(_isMobile, tilesEnabled)]]">
 					<div id="previewSlider" >
 						<template is="dom-repeat" items="[[images]]" >
-							<img on-tap="_gotoSlide" data-index$="[[index]]" src="[[item.url]]">
+							<img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" ></img>
 						</template>
 					</div>
 				</template>
@@ -306,42 +344,27 @@
 					type: Boolean,
 					value: false
 				},
+				tilesEnabled:{
+					type: Boolean,
+					value: false
+				},
 				images: {
 					type: Array,
-					value:  function(){
-						return [
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/2400x1600&sig=123", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=17", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=26", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=25", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=24", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=23", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=22", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=21", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=20", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600&sig=99", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/600x600", "category" : "room" },
-							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/400x600", "category" : "room" }
-						];
-					}
+					observer: '_onImagesAttached'
 				},
-				previewDefaults: {
+				_previewDefaults: {
 					type: Object,
 					value: function(){
 						return {
 							centerMode: true,
 							focusOnSelect:true,
-							slidesToScroll:5,
-							slidesToShow: 13,
-							arrows: false,
+							slidesToShow: 5,
+							slidesToScroll:10,
 							mobileFirst: true,
-							responsive:[
+							arrows: false,
+							responsive: [
 								{
-									breakpoint: 1025,
+									breakpoint: 1024,
 									settings: {
 										slidesToShow: 13,
 									}
@@ -362,14 +385,13 @@
 						};
 					}
 				},
-				slickDefaults: {
+				sliderDefaults: {
 					type: Object,
 					value: function() {
 						return {
-							slidesToShow: 3,
-							lazyLoad: 'ondemand',
 							infinite: true,
 							slickGoTo: 0,
+							lazyLoad: 'ondemand',
 							slidesToScroll: 1,
 							slidesToScroll: 5,
 							variableWidth: true,
@@ -404,6 +426,10 @@
 				},
 				_isDesktop: Boolean,
 				_isTablet: Boolean,
+				_isDesktop: {
+					type: Boolean,
+					computed: '_calculateDesktop(_isTablet, _isMobile)'
+				},
 				_isInGridMode: {
 					type: Boolean,
 					value: true
@@ -411,33 +437,59 @@
 			}
 		}
 
+		_getRemainingImagesCount(images, count){
+			return images.length - count + "+";
+		}
+
 		_gotoSlide(e){
 			let index = parseInt( e.target.getAttribute('data-index'));
 			var el = this.$.carousel;
 			this._isInGridMode = false;
 			jQuery(el).slick('slickGoTo', index);
-			if(!this._isMobile)
+			if(!this._isMobile && this.tilesEnabled)
 			jQuery(this.$.previewSlider).slick('slickGoTo', index);
 		}
 
 		ready(){
 			super.ready();
 			var slider = this;
-			setTimeout(function(){
-				var mainSlider = slider.$.carousel;
-				jQuery(mainSlider).slick(slider.slickDefaults);
-				jQuery(mainSlider).on('setPosition', function(event, slick, direction){
-					slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
-					if(!this._isMobile)
-					jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
-				});
+			if(this.images && this.images.length > 0){
 
-				if(!this._isMobile)
-				jQuery(slider.$.previewSlider).slick(slider.previewDefaults);
-			}, 0);
+				setTimeout(function(){
+					var mainSlider = slider.$.carousel;
+					jQuery(mainSlider).slick(slider.sliderDefaults);
+					jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+						slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+						if(!this._isMobile && this.tilesEnabled)
+						jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+					});
+
+					if(!this._isMobile && this.tilesEnabled)
+					jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+				}, 0);
+			}
 		}
 
-		_isDesktop(isMobile, isTablet){
+		_onImagesAttached() {
+			var slider = this;
+		  if(this.images && this.images.length > 0){
+
+				setTimeout(function(){
+					var mainSlider = slider.$.carousel;
+					jQuery(mainSlider).slick(slider.sliderDefaults);
+					jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+						slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+						if(!this._isMobile && this.tilesEnabled)
+						jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+					});
+
+					if(!this._isMobile && this.tilesEnabled)
+					jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+				}, 0);
+			}
+		}
+
+		_calculateDesktop(isTablet, isMobile){
 			return (!isMobile && !isTablet);
 		}
 
@@ -449,14 +501,24 @@
 			return this.images.indexOf(item) <= 3;
 		}
 
-		_closeSlider(	e){
+		_closeSlider(e){
 			if(e.target.classList.value === 'overlay' || e.target.classList.value === 'close')
 			this._isInGridMode = true;
 		}
+
+		_showPreviewThumbnails(isMobile, tilesEnabled){
+			return !isMobile && tilesEnabled;
+		}
+
+		_isNotSingleImageGrid(device, isSingleMode, override){
+			if(override)
+			return true;
+			return device && !isSingleMode;
+		}
+
 
 	}
 
 	customElements.define(TImageCorousel.is, TImageCorousel);
 	</script>
 </dom-module>
-

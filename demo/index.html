@@ -13,9 +13,9 @@
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
-  src: local('Roboto Regular'), 
-    local('Roboto-Regular'), 
-    url(http://themes.googleusercontent.com/static/fonts/roboto/v11/2UX7WLTfW3W8TclTUvlFyQ.woff) 
+  src: local('Roboto Regular'),
+    local('Roboto-Regular'),
+    url(http://themes.googleusercontent.com/static/fonts/roboto/v11/2UX7WLTfW3W8TclTUvlFyQ.woff)
     format('woff');
 }
     body,html{
@@ -39,5 +39,30 @@
       <t-image-corousel></t-image-corousel>
     </div>
 
+<script>
+  document.addEventListener('WebComponentsReady', function(){
+    var tGallery =  document.querySelector('t-image-corousel');
+    tGallery.tilesEnabled = true;
+    tGallery.images = [
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/2400x1600&sig=123", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=17", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=26", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=25", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=24", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=23", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=22", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=21", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600&sig=20", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600&sig=99", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x1600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/800x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/600x600", "category" : "room" },
+							{ "caption" : "image caption", "url" : "https://source.unsplash.com/random/400x600", "category" : "room" }
+						];
+  })
+
+</script>
   </body>
 </html>
