@@ -296,9 +296,9 @@
 			</div>
 		</template>
 
-		<div class="overlay" on-tap="_closeSlider">
+		<div class="overlay" on-click="_closeSlider">
 			<div class="lightbox" hidden$="[[_isInGridMode ]]">
-				<paper-icon-button class="close" on-tap="_closeSlider" icon="close" ></paper-icon-button>
+				<paper-icon-button class="close" on-click="_closeSlider" icon="close" ></paper-icon-button>
 				<div class="slider-header">
 					<div class="action-bar">
 						<h3>Mandarin Hotel, Las Vegas </h3>
@@ -340,14 +340,21 @@
 
 		static get properties() {
 			return {
+				/** Whether the Grid will show only single thumbnail  . */
 				showSingle: {
 					type: Boolean,
 					value: false
 				},
+				/** Whether the slider will show preview synced slider at the bottom. */
 				tilesEnabled:{
 					type: Boolean,
 					value: false
 				},
+				/**
+				* Images to be served by the slider.
+				*
+				* @type {{caption: String, url : String}}
+				*/
 				images: {
 					type: Array,
 					observer: '_onImagesAttached'
@@ -364,13 +371,7 @@
 							arrows: false,
 							responsive: [
 								{
-									breakpoint: 1024,
-									settings: {
-										slidesToShow: 13,
-									}
-								},
-								{
-									breakpoint: 767,
+									breakpoint: 768,
 									settings: {
 										slidesToShow: 6
 									}
@@ -502,7 +503,8 @@
 		}
 
 		_closeSlider(e){
-			if(e.target.classList.value === 'overlay' || e.target.classList.value === 'close')
+
+			if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
 			this._isInGridMode = true;
 		}
 
