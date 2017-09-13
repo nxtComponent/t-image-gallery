@@ -17,8 +17,9 @@
 			position: relative;
 			height: 100%;
 			width: 100%;
+      cursor: pointer;
 		}
-		#previewSlider .slick-current{
+		.preview-current-slide{
 			border: solid 2px blue;
 		}
 
@@ -135,9 +136,10 @@
 		}
 
 		.close{
-			position: absolute;
+			position: fixed;
 			z-index: 10;
-			right: 0;
+			right: 10px;
+			top: 10px;
 		}
 
 		.lightbox {
@@ -187,7 +189,6 @@
 		}
 
 		@media (min-width:576px){
-
 			.pagination-bar{
 				position: absolute;
 				bottom: 16px;
@@ -203,7 +204,6 @@
 			.slider-header{
 				padding: 20px 16px;
 			}
-
 		}
 		span.thumbnail-4{
 			display: block;
@@ -366,7 +366,7 @@
 							centerMode: true,
 							focusOnSelect:true,
 							slidesToShow: 5,
-							slidesToScroll:10,
+							slidesToScroll:1,
 							mobileFirst: true,
 							arrows: false,
 							responsive: [
@@ -447,80 +447,98 @@
 			var el = this.$.carousel;
 			this._isInGridMode = false;
 			jQuery(el).slick('slickGoTo', index);
-			if(!this._isMobile && this.tilesEnabled)
-			jQuery(this.$.previewSlider).slick('slickGoTo', index);
-		}
+      if(!this._isMobile && this.tilesEnabled){
+        let lastSlide = this.shadowRoot.querySelector('.preview-current-slide');
+        if(lastSlide)
+          lastSlide.classList.remove('preview-current-slide');
+        // e.target.classList.add('preview-current-slide');
+        let slide = jQuery(this.shadowRoot.querySelector('#previewSlider')).children().eq(index);
+        slide.addClass('preview-current-slide');
+        jQuery(this.$.previewSlider).slick('slickGoTo', index);
+      }
+    }
 
-		ready(){
-			super.ready();
-			var slider = this;
-			if(this.images && this.images.length > 0){
+    ready(){
+      super.ready();
+      var slider = this;
+      if(this.images && this.images.length > 0){
 
-				setTimeout(function(){
-					var mainSlider = slider.$.carousel;
-					jQuery(mainSlider).slick(slider.sliderDefaults);
-					jQuery(mainSlider).on('setPosition', function(event, slick, direction){
-						slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
-						if(!this._isMobile && this.tilesEnabled)
-						jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
-					});
+        setTimeout(function(){
+          var mainSlider = slider.$.carousel;
+          jQuery(mainSlider).slick(slider.sliderDefaults);
+          jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+            slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+            if(!this._isMobile && this.tilesEnabled){
+              jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+              let slide = jQuery(this.shadowRoot.querySelector('#previewSlider')).children().eq(slick.currentSlide);
+              slide.addClass('preview-current-slide');
+            }
+          });
 
-					if(!this._isMobile && this.tilesEnabled)
-					jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
-				}, 0);
-			}
-		}
+          if(!this._isMobile && this.tilesEnabled)
+            jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+        }, 0);
+      }
+    }
 
-		_onImagesAttached() {
-			var slider = this;
-		  if(this.images && this.images.length > 0){
+    _onImagesAttached() {
+      var slider = this;
+      if(this.images && this.images.length > 0){
 
-				setTimeout(function(){
-					var mainSlider = slider.$.carousel;
-					jQuery(mainSlider).slick(slider.sliderDefaults);
-					jQuery(mainSlider).on('setPosition', function(event, slick, direction){
-						slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
-						if(!this._isMobile && this.tilesEnabled)
-						jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
-					});
+        setTimeout(function(){
+          var mainSlider = slider.$.carousel;
+          jQuery(mainSlider).slick(slider.sliderDefaults);
+          jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+            slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+            if(!this._isMobile && this.tilesEnabled)
+              jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+          });
 
-					if(!this._isMobile && this.tilesEnabled)
-					jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
-				}, 0);
-			}
-		}
+          $(mainSlider).on('afterChange', function(event, slick, currentSlide, nextSlide){
+            let lastSlide = slider.shadowRoot.querySelector('.preview-current-slide');
+            if(lastSlide)
+              lastSlide.classList.remove('preview-current-slide');
+            let slide = jQuery(slider.shadowRoot.querySelector('#previewSlider')).children().eq(currentSlide);
+            slide.addClass('preview-current-slide');
+          });
 
-		_calculateDesktop(isTablet, isMobile){
-			return (!isMobile && !isTablet);
-		}
+          if(!this._isMobile && this.tilesEnabled)
+            jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+        }, 0);
+      }
+    }
 
-		_isInFirstFive(item){
-			return this.images.indexOf(item) <= 4;
-		}
+    _calculateDesktop(isTablet, isMobile){
+      return (!isMobile && !isTablet);
+    }
 
-		_isInFirstFour(item){
-			return this.images.indexOf(item) <= 3;
-		}
+    _isInFirstFive(item){
+      return this.images.indexOf(item) <= 4;
+                                                                }
 
-		_closeSlider(e){
+                                                                _isInFirstFour(item){
+                                                                return this.images.indexOf(item) <= 3;
+                                                                }
 
-			if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
-			this._isInGridMode = true;
-		}
+                                                                _closeSlider(e){
 
-		_showPreviewThumbnails(isMobile, tilesEnabled){
-			return !isMobile && tilesEnabled;
-		}
+                                                                if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
+                                                                  this._isInGridMode = true;
+                                                                }
 
-		_isNotSingleImageGrid(device, isSingleMode, override){
-			if(override)
-			return true;
-			return device && !isSingleMode;
-		}
+                                                                _showPreviewThumbnails(isMobile, tilesEnabled){
+                                                                  return !isMobile && tilesEnabled;
+                                                                }
+
+                                                                _isNotSingleImageGrid(device, isSingleMode, override){
+                                                                  if(override)
+                                                                    return true;
+                                                                  return device && !isSingleMode;
+                                                                }
 
 
-	}
+  }
 
-	customElements.define(TImageCorousel.is, TImageCorousel);
-	</script>
+customElements.define(TImageCorousel.is, TImageCorousel);
+  </script>
 </dom-module>
