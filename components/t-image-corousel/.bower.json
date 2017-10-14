@@ -1,0 +1,33 @@
+{
+  "name": "t-image-corousel",
+  "main": "t-image-corousel.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0",
+    "slick-carousel": "^1.6.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.1",
+    "iron-media-query": "PolymerElements/iron-media-query#^2.0.0",
+    "paper-button": "PolymerElements/paper-button#^2.0.0",
+    "iron-image": "PolymerElements/iron-image#^2.1.2",
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.1"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "resolutions": {
+    "polymer": "^2.0.0"
+  },
+  "homepage": "https://github.com/nxtComponent/t-image-gallery",
+  "_release": "986b1d137f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "986b1d137f8b7887e2f77f88ddf1f22893fa4bfc"
+  },
+  "_source": "https://github.com/nxtComponent/t-image-gallery.git",
+  "_target": "master",
+  "_originalSource": "nxtComponent/t-image-gallery",
+  "_direct": true
+}

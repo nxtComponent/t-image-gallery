@@ -1,0 +1,545 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link href="../iron-icons/iron-icons.html" rel="import">
+<link href="../iron-media-query/iron-media-query.html" rel="import">
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="../slick-carousel/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.css"></link>
+<link rel="stylesheet" type="text/css" href="../slick-carousel/slick/slick-theme.css"></link>
+<dom-module id="t-image-corousel">
+  <template>
+    <style>
+      :host {
+        display: block;
+        font-family: 'Roboto';
+        position: relative;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+      }
+      .preview-current-slide{
+        border: solid 2px blue;
+      }
+
+      #previewSlider{
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        overflow: hidden;
+        padding: 10px 0;
+
+        @apply --layout-horizontal;
+        @apply --layout-wrap;
+        @apply --layout-center-justified;
+      }
+
+      #previewSlider img {
+        height: 60px !important;
+        width: 60px !important;
+        margin: 3px;
+      }
+      .grid {
+        display: -ms-flexbox;
+        -ms-flex-wrap: wrap;
+        -ms-flex-direction: column;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+        display: -webkit-box;
+        display: flex;
+      }
+
+      .c-items img{
+        width: 100%;
+      }
+
+      [hidden]{
+        display: none!important;
+      }
+
+      .grid{
+        width: 100%;
+        height: 100%;
+      }
+      .grid div {
+        -webkit-box-flex: auto;
+        -ms-flex: auto;
+        flex: auto;
+        width: calc(33% - 6px);
+        height: 50%;
+        padding: 2px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        position: relative;
+      }
+      .grid div img {
+        width: 100%;
+        height: 100%;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .grid > div {
+          width: 300px;
+        }
+      }
+
+      @media screen and (max-width: 400px) {
+        .grid > div { margin: 0; height: 100%;  }
+        .grid { padding: 0;  }
+      }
+
+      .slic-next{
+        width: 40px;
+        height: 40px;
+        transform: translateY(-50%);
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        color: white;
+      }
+
+      .slic-prev{
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 12;
+        color: white;
+      }
+
+      .slider-header{
+        height: 60px;
+        padding: 10px 16px;
+        position: relative;
+      }
+
+      .slider-header h3{
+        font-size: 18px;
+        font-weight: 300;
+        margin: 0;
+        display: inline-block;
+      }
+
+      .action-bar{
+        position: relative;
+      }
+
+      .action-bar h3{
+      }
+
+      .slider-header paper-button{
+        background-color:#1976d3;
+      }
+
+      .close{
+        position: fixed;
+        z-index: 10;
+        right: 10px;
+        top: 10px;
+      }
+
+      .lightbox {
+        position: fixed;
+        color: #e5e6ea;
+        width: 100vw;
+        top: 0;
+        height: 100vh;
+        background-color: rgba(0,0,0, 0.8);
+        /* margin: 0 auto; */
+        z-index: 9;
+        left: 0;
+      }
+
+      .lightbox .lb-images {
+        display: block;
+        position: relative;
+        height: calc(100% - 250px);
+        max-height: calc(100% - 250px);
+      }
+
+      #carousel{
+        height: 100%;
+        width: calc(100% - 198px);
+        margin: 0 auto;
+        overflow: hidden;
+      }
+
+      .grid span{
+        display: none;
+      }
+      .slick-slide {
+        display: inline-block;
+      }
+      #carousel .slick-slide img{
+        margin: 0 6px;
+        width: auto;
+        height: 70vh;
+        opacity: 0.5em;
+        -webkit-filter: blur(7px) grayscale(100%); /* Safari 6.0 - 9.0 */
+        filter: blur(7px) grayscale(100%);
+      }
+      #carousel .slick-slide.slick-current img{
+        -webkit-filter: none; /* Safari 6.0 - 9.0 */
+        filter: none;
+        opacity: 1;
+      }
+
+      @media (min-width:576px){
+        .pagination-bar{
+          position: absolute;
+          bottom: 16px;
+          left: 95px;
+        }
+
+        .slider-header h3{
+          margin: 0 15px;
+        }
+        .action-bar{
+          text-align: center;
+        }
+        .slider-header{
+          padding: 20px 16px;
+        }
+      }
+      span.thumbnail-4{
+        display: block;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%);
+        position: absolute;
+        display: block;
+        color: #fff;
+        font-size: 23px;
+        font-weight: 600;
+      }
+
+      @media (max-width: 1024px)  {
+        span.thumbnail-3{
+          display: block;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%);
+          position: absolute;
+          display: block;
+          color: #fff;
+          font-size: 23px;
+          font-weight: 600;
+        }
+      }
+      @media (max-width : 575px) {
+        .pagination-bar{
+          margin-top: 10px;
+        }
+        .action-button{
+          position: fixed;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          margin: 0;
+        }
+        .lightbox #carousel{
+          width: 100%;
+          height: calc(100% - 60px);
+        }
+        .action-bar h1{
+          margin: 5px;
+        }
+
+        #previewSlider{
+          cursor: pointer;
+        }
+        .lightbox .lb-images{
+          height: calc(100% - 140px);
+          max-height: calc(100% - 140px);
+        }
+
+        .lightbox{
+          height:100%;
+          top:0;
+        }
+
+        .slic-next{
+          right: 20px;
+        }
+        .slic-prev{
+          left: 20px;
+        }
+      }
+
+    </style>
+
+    <iron-media-query query="(max-width : 575px)" query-matches="{{_isMobile}}"></iron-media-query>
+    <iron-media-query query="(max-width: 1024px) and (min-width: 768px)" query-matches="{{_isTablet}}"></iron-media-query>
+
+
+    <template is="dom-if" if="[[_isInGridMode]]">
+      <div class="grid" >
+        <template is="dom-if" if="[[_isNotSingleImageGrid(_isDesktop, isSingleMode )]]">
+          <template is="dom-repeat" items="[[images]]" filter="_isInFirstFive" >
+            <div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 5)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+          </template>
+        </template>
+
+        <template is="dom-if" if="[[_isNotSingleImageGrid(_isTablet, isSingleMode )]]" filter="_isInFirstFour" >
+          <template is="dom-repeat" items="[[images]]" filter="_isInFirstFour" >
+            <div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 4)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+          </template>
+        </template>
+
+        <template is="dom-if" if="[[_isNotSingleImageGrid(_isMobile, isSingleMode, true )]]" >
+          <div><img on-click="_gotoSlide" data-index="0" src="[[images.0.url]]" alt></div>
+        </template>
+      </div>
+    </template>
+
+    <div class="overlay" on-click="_closeSlider">
+      <div class="lightbox" hidden$="[[_isInGridMode ]]">
+        <paper-icon-button class="close" on-click="_closeSlider" icon="close" ></paper-icon-button>
+        <div class="slider-header">
+          <div class="action-bar">
+            <h3>Mandarin Hotel, Las Vegas </h3>
+            <paper-button  raised class="indigo action-button" >[[resources.reserve]]</paper-button>
+          </div>
+          <div class="pagination-bar">[[_paging]]</div>
+
+        </div>
+        <div class="lb-images">
+          <div id="carousel" class="lb-slides">
+            <template is="dom-repeat" items="[[images]]" >
+              <div><div class="c-items"><img data-index$="[[index]]"  data-lazy$="[[item.url]]" ></img></div></div>
+            </template>
+          </div>
+        </div>
+        <template is="dom-if" if="[[_showPreviewThumbnails(_isMobile, tilesEnabled)]]">
+          <div id="previewSlider" >
+            <template is="dom-repeat" items="[[images]]" >
+              <img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" ></img>
+            </template>
+          </div>
+        </template>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    /**
+     * `t-image-corousel`
+     *
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+  class TImageCorousel extends Polymer.Element {
+    static get is() { return 't-image-corousel'; }
+
+    static get properties() {
+      return {
+        /** Whether the Grid will show only single thumbnail  . */
+        showSingle: {
+          type: Boolean,
+          value: false
+        },
+        /** Whether the slider will show preview synced slider at the bottom. */
+        tilesEnabled:{
+          type: Boolean,
+          value: false
+        },
+        resources: Object,
+        /**
+         * Images to be served by the slider.
+         *
+         * @type {{caption: String, url : String}}
+         */
+        images: {
+          type: Array,
+          observer: '_onImagesAttached'
+        },
+        _previewDefaults: {
+          type: Object,
+          value: function(){
+            return {
+              centerMode: true,
+              focusOnSelect:true,
+              slidesToShow: 5,
+              slidesToScroll:1,
+              mobileFirst: true,
+              arrows: false,
+              responsive: [
+                {
+                  breakpoint: 768,
+                  settings: {
+                    slidesToShow: 6
+                  }
+                },
+                {
+                  breakpoint: 480,
+                  settings: {
+                    slidesToShow: 1
+                  }
+                }
+              ]
+            };
+          }
+        },
+        sliderDefaults: {
+          type: Object,
+          value: function() {
+            return {
+              infinite: true,
+              slickGoTo: 0,
+              lazyLoad: 'ondemand',
+              slidesToScroll: 1,
+              slidesToScroll: 5,
+              variableWidth: true,
+              focusOnSelect: false,
+              nextArrow:'<paper-icon-button icon="arrow-forward" class="slic-next" ></paper-icon-button>',
+              prevArrow: '<paper-icon-button primary icon="arrow-back" class="slic-prev" ></paper-icon-button>',
+              speed: 600,
+              centerMode: true,
+              arrows: true,
+              responsive: [
+                {
+                  breakpoint: 1024,
+                  settings: {
+                    slidesToShow: 3,
+                  }
+                },
+                {
+                  breakpoint: 767,
+                  settings: {
+                    slidesToShow: 2
+                  }
+                },
+                {
+                  breakpoint: 480,
+                  settings: {
+                    slidesToShow: 1
+                  }
+                }
+              ]
+            };
+          }
+        },
+        _isDesktop: Boolean,
+        _isTablet: Boolean,
+        _isDesktop: {
+          type: Boolean,
+          computed: '_calculateDesktop(_isTablet, _isMobile)'
+        },
+        _isInGridMode: {
+          type: Boolean,
+          value: true
+        }
+      }
+    }
+
+    _getRemainingImagesCount(images, count){
+      return images.length - count + "+";
+    }
+
+    _gotoSlide(e){
+      let index = parseInt( e.target.getAttribute('data-index'));
+      var el = this.$.carousel;
+      this._isInGridMode = false;
+      jQuery(el).slick('slickGoTo', index);
+      if(!this._isMobile && this.tilesEnabled){
+        let lastSlide = this.shadowRoot.querySelector('.preview-current-slide');
+        if(lastSlide)
+          lastSlide.classList.remove('preview-current-slide');
+        // e.target.classList.add('preview-current-slide');
+        let slide = jQuery(this.shadowRoot.querySelector('#previewSlider')).children().eq(index);
+        slide.addClass('preview-current-slide');
+        jQuery(this.$.previewSlider).slick('slickGoTo', index);
+      }
+    }
+
+    ready(){
+      super.ready();
+      var slider = this;
+      if(this.images && this.images.length > 0){
+
+        setTimeout(function(){
+          var mainSlider = slider.$.carousel;
+          jQuery(mainSlider).slick(slider.sliderDefaults);
+          jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+            slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+            if(!this._isMobile && this.tilesEnabled){
+              jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+              let slide = jQuery(this.shadowRoot.querySelector('#previewSlider')).children().eq(slick.currentSlide);
+              slide.addClass('preview-current-slide');
+            }
+          });
+
+          if(!this._isMobile && this.tilesEnabled)
+            jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+        }, 0);
+      }
+    }
+
+    _onImagesAttached() {
+      var slider = this;
+      if(this.images && this.images.length > 0){
+
+        setTimeout(function(){
+          var mainSlider = slider.$.carousel;
+          jQuery(mainSlider).slick(slider.sliderDefaults);
+          jQuery(mainSlider).on('setPosition', function(event, slick, direction){
+            slider._paging = (slick.currentSlide + 1) + "/" + slider.images.length;
+            if(!this._isMobile && this.tilesEnabled)
+              jQuery(slider.$.previewSlider).slick('slickGoTo', slick.currentSlide);
+          });
+
+          $(mainSlider).on('afterChange', function(event, slick, currentSlide, nextSlide){
+            let lastSlide = slider.shadowRoot.querySelector('.preview-current-slide');
+            if(lastSlide)
+              lastSlide.classList.remove('preview-current-slide');
+            let slide = jQuery(slider.shadowRoot.querySelector('#previewSlider')).children().eq(currentSlide);
+            slide.addClass('preview-current-slide');
+          });
+
+          if(!this._isMobile && this.tilesEnabled)
+            jQuery(slider.$.previewSlider).slick(slider._previewDefaults);
+        }, 0);
+      }
+    }
+
+    _calculateDesktop(isTablet, isMobile){
+      return (!isMobile && !isTablet);
+    }
+
+    _isInFirstFive(item){
+      return this.images.indexOf(item) <= 4;
+    }
+
+    _isInFirstFour(item){
+      return this.images.indexOf(item) <= 3;
+    }
+
+    _closeSlider(e){
+
+      if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
+        this._isInGridMode = true;
+    }
+
+    _showPreviewThumbnails(isMobile, tilesEnabled){
+      return !isMobile && tilesEnabled;
+    }
+
+    _isNotSingleImageGrid(device, isSingleMode, override){
+      if(override)
+        return true;
+      return device && !isSingleMode;
+    }
+
+
+  }
+
+customElements.define(TImageCorousel.is, TImageCorousel);
+  </script>
+</dom-module>
