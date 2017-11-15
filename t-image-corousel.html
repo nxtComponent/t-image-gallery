@@ -447,7 +447,7 @@
       let index = parseInt( e.target.getAttribute('data-index'));
       var el = this.$.carousel;
       this._isInGridMode = false;
-      document.querySelector('body').style.overflow = 'hidden';
+      document.querySelector('body').style['overflow-y'] = 'hidden';
       jQuery(el).slick('slickGoTo', index);
       if(!this._isMobile && this.tilesEnabled){
         let lastSlide = this.shadowRoot.querySelector('.preview-current-slide');
@@ -524,7 +524,7 @@
 
     _closeSlider(e){
 
-      document.querySelector('body').style.overflow = 'auto';
+      document.querySelector('body').style['overflow-y'] = 'auto';
       if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
         this._isInGridMode = true;
     }
