@@ -286,7 +286,7 @@
 
         <template is="dom-if" if="[[_isNotSingleImageGrid(_isTablet, isSingleMode )]]" filter="_isInFirstFour" >
           <template is="dom-repeat" items="[[images]]" filter="_isInFirstFour" >
-            <div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 4)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+            <div><span class$="thumbnail-[[index]]" on-click="_gotoSlide" data-index$="[[index]]"  >[[_getRemainingImagesCount(images, 4)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
           </template>
         </template>
 
@@ -447,7 +447,7 @@
       let index = parseInt( e.target.getAttribute('data-index'));
       var el = this.$.carousel;
       this._isInGridMode = false;
-      window.addEventListener('scroll', this._noscroll);
+      document.querySelector('body').style.overflow = 'hidden';
       jQuery(el).slick('slickGoTo', index);
       if(!this._isMobile && this.tilesEnabled){
         let lastSlide = this.shadowRoot.querySelector('.preview-current-slide');
@@ -524,17 +524,13 @@
 
     _closeSlider(e){
 
-      window.removeEventListener('scroll', this._noscroll);
+      document.querySelector('body').style.overflow = 'auto';
       if(e.target.classList.contains('overlay') || e.target.classList.contains('close'))
         this._isInGridMode = true;
     }
 
     _showPreviewThumbnails(isMobile, tilesEnabled){
       return !isMobile && tilesEnabled;
-    }
-
-    _noscroll() {
-      window.scrollTo( 0, 0 );
     }
 
     _isNotSingleImageGrid(device, isSingleMode, override){
