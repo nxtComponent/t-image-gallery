@@ -280,7 +280,7 @@
       <div class="grid" >
         <template is="dom-if" if="[[_isNotSingleImageGrid(_isDesktop, isSingleMode )]]">
           <template is="dom-repeat" items="[[images]]" filter="_isInFirstFive" >
-            <div><span class$="thumbnail-[[index]]">[[_getRemainingImagesCount(images, 5)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
+            <div><span class$="thumbnail-[[index]]" on-click="_gotoSlide" data-index$="[[index]]" >[[_getRemainingImagesCount(images, 5)]]</span><img on-click="_gotoSlide" data-index$="[[index]]" src="[[item.url]]" alt></div>
           </template>
         </template>
 
