@@ -13,7 +13,8 @@
     <style>
       :host {
         display: block;
-        font-family: 'Roboto';
+        font-family: 'Roboto', 'normal';
+        font-weight: 400;
         position: relative;
         height: 100%;
         width: 100%;
@@ -79,9 +80,9 @@
         height: 100%;
       }
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (min-width: 550px) {
         .grid > div {
-          width: 300px;
+          width: 250px;
         }
       }
 
@@ -206,7 +207,7 @@
         }
       }
       span.thumbnail-4{
-        display: block;
+        display: block !important;
         left: 50%;
         top: 50%;
         transform: translate(-50%);
@@ -219,7 +220,7 @@
 
       @media (max-width: 1024px)  {
         span.thumbnail-3{
-          display: block;
+          display: block !important;
           left: 50%;
           top: 50%;
           transform: translate(-50%);
